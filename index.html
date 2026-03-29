@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Práctica de Números</title>
+
+<style>
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #0f172a;
+  color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.container {
+  width: 90%;
+  max-width: 500px;
+  background: #1e293b;
+  padding: 20px;
+  border-radius: 15px;
+  text-align: center;
+}
+
+.question {
+  font-size: 20px;
+  margin: 20px 0;
+}
+
+.btn {
+  display: block;
+  margin: 10px 0;
+  padding: 12px;
+  border-radius: 10px;
+  border: none;
+  background: #334155;
+  color: white;
+  cursor: pointer;
+}
+
+.correct { background: #16a34a !important; }
+.wrong { background: #dc2626 !important; }
+
+.progress {
+  font-size: 14px;
+  opacity: 0.7;
+}
+
+.explanation {
+  margin-top: 15px;
+  padding: 10px;
+  background: #020617;
+  border-radius: 10px;
+  font-size: 14px;
+  display: none;
+}
+
+.next-btn {
+  margin-top: 15px;
+  padding: 10px;
+  border: none;
+  border-radius: 10px;
+  background: #3b82f6;
+  color: white;
+  cursor: pointer;
+  display: none;
+}
+</style>
+
+</head>
+<body>
+
+<div class="container">
+  <h2>Práctica de Números</h2>
+  <div class="progress" id="progress"></div>
+  <div class="question" id="question"></div>
+  <div id="answers"></div>
+
+  <div class="explanation" id="explanation"></div>
+  <button class="next-btn" id="nextBtn">Siguiente</button>
+</div>
+
+<script>
+const questions = [
+  {q:"¿Qué tipo de número es 5?",a:"Natural",exp:"Los números naturales son los positivos usados para contar (1,2,3...)."},
+  {q:"¿Qué tipo de número es -3?",a:"Entero",exp:"Los enteros incluyen negativos, positivos y el 0."},
+  {q:"¿Qué tipo de número es 1/2?",a:"Racional",exp:"Los racionales se pueden escribir como fracción."},
+  {q:"¿Qué tipo de número es √2?",a:"Irracional",exp:"No se puede expresar como fracción exacta."},
+  {q:"¿Qué tipo de número es 0?",a:"Entero",exp:"El 0 pertenece al conjunto de los enteros."},
+  {q:"¿Qué tipo de número es 10?",a:"Natural",exp:"Es un número positivo usado para contar."},
+  {q:"¿Qué tipo de número es -7?",a:"Entero",exp:"Es un número negativo, por eso es entero."},
+  {q:"¿Qué tipo de número es 3/4?",a:"Racional",exp:"Se expresa como fracción."},
+  {q:"¿Qué tipo de número es π?",a:"Irracional",exp:"Tiene infinitos decimales no periódicos."},
+  {q:"¿Qué tipo de número es 15?",a:"Natural",exp:"Es positivo y entero, por eso es natural."},
+
+  {q:"¿Qué tipo de número es -1?",a:"Entero",exp:"Es negativo, pertenece a los enteros."},
+  {q:"¿Qué tipo de número es 2/3?",a:"Racional",exp:"Se puede escribir como fracción."},
+  {q:"¿Qué tipo de número es √3?",a:"Irracional",exp:"No es una fracción exacta."},
+  {q:"¿Qué tipo de número es 8?",a:"Natural",exp:"Es un número positivo para contar."},
+  {q:"¿Qué tipo de número es -10?",a:"Entero",exp:"Número negativo entero."},
+  {q:"¿Qué tipo de número es 7/8?",a:"Racional",exp:"Es una fracción."},
+  {q:"¿Qué tipo de número es e?",a:"Irracional",exp:"Número con infinitos decimales no repetitivos."},
+  {q:"¿Qué tipo de número es 20?",a:"Natural",exp:"Número positivo entero."},
+  {q:"¿Qué tipo de número es -15?",a:"Entero",exp:"Número negativo."},
+  {q:"¿Qué tipo de número es 9/5?",a:"Racional",exp:"Se puede escribir como fracción."}
+];
+
+const options = ["Natural","Entero","Racional","Irracional"];
+
+let current = 0;
+let score = 0;
+
+function loadQuestion(){
+  document.getElementById("progress").innerText = `Pregunta ${current+1} de ${questions.length}`;
+  document.getElementById("question").innerText = questions[current].q;
+
+  const answersDiv = document.getElementById("answers");
+  answersDiv.innerHTML = "";
+
+  document.getElementById("explanation").style.display = "none";
+  document.getElementById("nextBtn").style.display = "none";
+
+  options.forEach(option=>{
+    const btn = document.createElement("button");
+    btn.classList.add("btn");
+    btn.innerText = option;
+
+    btn.onclick = ()=>{
+      document.querySelectorAll(".btn").forEach(b=>b.disabled=true);
+
+      if(option === questions[current].a){
+        btn.classList.add("correct");
+        score++;
+      } else {
+        btn.classList.add("wrong");
+      }
+
+      showExplanation();
+    };
+
+    answersDiv.appendChild(btn);
+  });
+}
+
+function showExplanation(){
+  const expDiv = document.getElementById("explanation");
+  expDiv.innerText = questions[current].exp;
+  expDiv.style.display = "block";
+
+  document.getElementById("nextBtn").style.display = "block";
+}
+
+document.getElementById("nextBtn").onclick = ()=>{
+  current++;
+  if(current < questions.length){
+    loadQuestion();
+  } else {
+    document.querySelector(".container").innerHTML =
+      `<h1>Resultado</h1>
+       <p>Obtuviste ${score} de ${questions.length}</p>`;
+  }
+};
+
+loadQuestion();
+</script>
+
+</body>
+</html>
