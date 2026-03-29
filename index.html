@@ -151,28 +151,32 @@ function showExplanation(){
   expDiv.innerText = questions[current].exp;
   expDiv.style.display = "block";
 
-  document.getElementById("nextBtn").style.display = "block";
-}
+  document.getElementById("nextBtn").onclick = ()=>{
+  current++;
 
-  const percentage = Math.round((score / questions.length) * 100);
+  if(current < questions.length){
+    loadQuestion();
+  } else {
 
-let message = "";
-if (percentage >= 90) {
-  message = "🔥 Excelente dominio";
-} else if (percentage >= 70) {
-  message = "💪 Buen trabajo";
-} else if (percentage >= 50) {
-  message = "👍 Vas bien, sigue practicando";
-} else {
-  message = "📚 Necesitas reforzar";
-}
+    const percentage = Math.round((score / questions.length) * 100);
 
-document.querySelector(".container").innerHTML =
-  `<h1>Resultado</h1>
-   <p>Obtuviste ${score} de ${questions.length}</p>
-   <h2>${percentage}%</h2>
-   <p>${message}</p>`;
-}
+    let message = "";
+    if (percentage >= 90) {
+      message = "🔥 Excelente dominio";
+    } else if (percentage >= 70) {
+      message = "💪 Buen trabajo";
+    } else if (percentage >= 50) {
+      message = "👍 Vas bien, sigue practicando";
+    } else {
+      message = "📚 Necesitas reforzar";
+    }
+
+    document.querySelector(".container").innerHTML =
+      `<h1>Resultado</h1>
+       <p>Obtuviste ${score} de ${questions.length}</p>
+       <h2>${percentage}%</h2>
+       <p>${message}</p>`;
+  }
 
 loadQuestion();
 </script>
